@@ -49,5 +49,9 @@ public class Acao {
 		return retornoAcao * (porcentagemAcao / 100);
 
 	}
+	
+	public double acrescentaPorcentagem(int add) {
+		return porcentagemAcao + add;
+	}
 
 }

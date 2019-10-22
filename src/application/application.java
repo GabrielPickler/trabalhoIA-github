@@ -11,8 +11,6 @@ public class application {
 
 	public static void main(String[] args) {
 
-		DecimalFormat df = new DecimalFormat("###,##0.00000");
-
 		// declara Lista para sortear as porcentagens de cada ação
 		List<Integer> porcentagem = new ArrayList();
 		porcentagem.add(30);
@@ -29,16 +27,13 @@ public class application {
 		Acao E = new Acao("E", 0.01731, sorteia(porcentagem));
 
 		// mostrar carteira inicial
-		Acao carteira[] = { A, B, C, D, E };
-		System.out.println("Carteira inicial: \n");
-		mostraCarteira(carteira);
-		System.out.println("\nRetorno Carteira: " + df.format(retornoCarteira(carteira)));
-		System.out.println("Carteira Escolhida: " + somaPorcentagem(carteira) + "%");
-		System.out.println("--------------------------------------------------------");
-		
+		Acao carteiraInicial[] = { A, B, C, D, E };
+		Acao carteiraVizinha[] = carteiraInicial;
+		mostraCarteiraInicial(carteiraInicial);
 	}
 
-	// método somatório para definir o retorno da carteira - Soma(RetornoAção_X * PorcentagemAção_X)
+	// método somatório para definir o retorno da carteira - Soma(RetornoAção_X *
+	// PorcentagemAção_X)
 	public static double retornoCarteira(Acao somar[]) {
 
 		double soma = 0.0;
@@ -75,10 +70,33 @@ public class application {
 		return somar;
 	}
 
-	public static void mostraCarteira(Acao a[]) {
-		System.out.println("Ação   Retorno Anual   Carteira Escolhida");
+	public static void mostraCarteiraInicial(Acao a[]) {
+		DecimalFormat df = new DecimalFormat("###,##0.00000");
+		System.out.println("Carteira inicial: \n");
+
+		System.out.println(
+				"-----------------------------------------------------------------------------------------------------------------------");
+		System.out.print("|     Ação         |    ");
 		for (int i = 0; i < a.length; i++) {
-			System.out.println(a[i]);
+			System.out.print(a[i].getAcao() + "      |       ");
 		}
+		System.out.print("Retorno Carteira:  |");
+		System.out.print(
+				"\n-----------------------------------------------------------------------------------------------------------------------");
+		System.out.print("\n|  Retorno Anual   |  ");
+		for (int i = 0; i < a.length; i++) {
+			System.out.print(a[i].getRetornoAcao() + "  |     ");
+		}
+		System.out.print("      " + df.format(retornoCarteira(a)) + "        |");
+		System.out.print(
+				"\n-----------------------------------------------------------------------------------------------------------------------");
+		System.out.print("\n|Carteira Escolhida|   ");
+		for (int i = 0; i < a.length; i++) {
+			System.out.print(a[i].getPorcentagemAcao() + "%" + "   |      ");
+		}
+		System.out.print("     " + somaPorcentagem(a) + "%         |");
+		System.out.print(
+				"\n-----------------------------------------------------------------------------------------------------------------------");
+
 	}
 }
