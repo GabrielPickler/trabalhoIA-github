@@ -12,12 +12,12 @@ public class application {
 	public static void main(String[] args) {
 
 		// declara Lista para sortear as porcentagens de cada ação
-		List<Integer> porcentagem = new ArrayList();
-		porcentagem.add(30);
-		porcentagem.add(25);
-		porcentagem.add(20);
-		porcentagem.add(15);
-		porcentagem.add(10);
+		List<Double> porcentagem = new ArrayList<>();
+		porcentagem.add(30.0);
+		porcentagem.add(25.0);
+		porcentagem.add(20.0);
+		porcentagem.add(15.0);
+		porcentagem.add(10.0);
 
 		// instanciando ações
 		Acao A = new Acao("A", 0.42292, sorteia(porcentagem));
@@ -28,12 +28,20 @@ public class application {
 
 		// mostrar carteira inicial
 		Acao carteiraInicial[] = { A, B, C, D, E };
-		Acao carteiraVizinha[] = carteiraInicial;
 		mostraCarteiraInicial(carteiraInicial);
+		
+		// Criação da matriz da carteira vizinha
+		Acao carteiraVizinha[][] = { { A, B, C, D, E }, { A, B, C, D, E }, { A, B, C, D, E }, { A, B, C, D, E }, { A, B, C, D, E }  };
+		System.out.println("\n\nCarteira Vizinha\n");
+		for (int i = 0; i < carteiraVizinha.length; i++) {
+			for (int j = 0; j < carteiraVizinha.length; j++) {
+				System.out.print(carteiraVizinha[i][j].getPorcentagemAcao() + " ");
+			}
+			System.out.println(" ");
+		}
 	}
 
-	// método somatório para definir o retorno da carteira - Soma(RetornoAção_X *
-	// PorcentagemAção_X)
+	// método somatório para definir o retorno da carteira - Soma(RetornoAção_X * PorcentagemAção_X)
 	public static double retornoCarteira(Acao somar[]) {
 
 		double soma = 0.0;
@@ -49,11 +57,11 @@ public class application {
 	}
 
 	// método para sortear as porcentagens para cada ação
-	public static int sorteia(List sorteia) {
+	public static int sorteia(List<Double> sorteia) {
 
 		Collections.shuffle(sorteia);
 
-		return ((Integer) sorteia.remove(0)).intValue();
+		return ((Double) sorteia.remove(0)).intValue();
 
 	}
 
