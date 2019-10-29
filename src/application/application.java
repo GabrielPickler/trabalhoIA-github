@@ -12,6 +12,7 @@ public class application {
 	public static void main(String[] args) {
 
 		// declara Lista para sortear as porcentagens de cada ação
+		DecimalFormat df = new DecimalFormat("###,##0.00000");
 		List<Double> porcentagem = new ArrayList<>();
 		porcentagem.add(30.0);
 		porcentagem.add(25.0);
@@ -20,25 +21,66 @@ public class application {
 		porcentagem.add(10.0);
 
 		// instanciando ações
-		Acao A = new Acao("A", 0.42292, sorteia(porcentagem));
-		Acao B = new Acao("B", 0.25685, sorteia(porcentagem));
-		Acao C = new Acao("C", 0.04128, sorteia(porcentagem));
-		Acao D = new Acao("D", 0.05812, sorteia(porcentagem));
-		Acao E = new Acao("E", 0.01731, sorteia(porcentagem));
+		Acao A1 = new Acao("A", 0.42292, sorteia(porcentagem));
+		Acao B1 = new Acao("B", 0.25685, sorteia(porcentagem));
+		Acao C1 = new Acao("C", 0.04128, sorteia(porcentagem));
+		Acao D1 = new Acao("D", 0.05812, sorteia(porcentagem));
+		Acao E1 = new Acao("E", 0.01731, sorteia(porcentagem));
 
 		// mostrar carteira inicial
-		Acao carteiraInicial[] = { A, B, C, D, E };
+		Acao carteiraInicial[] = { A1, B1, C1, D1, E1 };
+		Acao Vizinho[] = { A1, B1, C1, D1, E1 };
+		double maior[] = new double[5];
+		System.out.println("Carteira Inicial\n");
 		mostraCarteiraInicial(carteiraInicial);
-		
+
 		// Criação da matriz da carteira vizinha
-		Acao carteiraVizinha[][] = { { A, B, C, D, E }, { A, B, C, D, E }, { A, B, C, D, E }, { A, B, C, D, E }, { A, B, C, D, E }  };
-		System.out.println("\n\nCarteira Vizinha\n");
-		for (int i = 0; i < carteiraVizinha.length; i++) {
-			for (int j = 0; j < carteiraVizinha.length; j++) {
-				System.out.print(carteiraVizinha[i][j].getPorcentagemAcao() + " ");
-			}
-			System.out.println(" ");
+
+		double maiorValor = retornoCarteira(carteiraInicial);
+		double retornoVizinho = 0.0;
+		int add = 0;
+		int aux = add + 1;
+		double porcen = 5.0;
+		
+		// while (retornoVizinho <= maiorValor) {
+		System.out.println("\n\nCarteira Vizinha " + (add+1) + "\n");
+		System.out.println(
+				"-----------------------------------------------------------------------------------------");
+
+		for (int i = 0; i < Vizinho.length; i++) {
+			System.out.print(" |     "+Vizinho[i].getAcao()+"     ");		
 		}
+		System.out.print("  |  Retorno Carteira: |");
+		System.out.print(
+				"\n-----------------------------------------------------------------------------------------\n");
+
+		Vizinho[add].setPorcentagemAcao(Vizinho[add].acrescentaPorcentagem(porcen));
+		for (int j = 0; j < Vizinho.length-1; j ++) {			
+			Vizinho[aux].setPorcentagemAcao(Vizinho[aux].diminuiPorcentagem(porcen));
+			retornoCarteira(Vizinho);
+			if (retornoCarteira(Vizinho) > maiorValor) {
+				maiorValor = retornoCarteira(Vizinho);
+				for (int i = 0; i < maior.length; i++) {
+					maior[i] = Vizinho[i].getPorcentagemAcao();
+				}
+			}
+			mostraVizinho(Vizinho);
+			Vizinho[aux].setPorcentagemAcao(Vizinho[aux].acrescentaPorcentagem(porcen));
+			aux++;
+			if (aux > Vizinho.length) {
+				aux = 0;
+			}
+			Vizinho = carteiraInicial;
+			
+		}
+			add++;
+			System.out.println("");
+			for(int i =0; i<maior.length;i++) {
+			System.out.print(maior[i] + "%, ");
+			}
+			System.out.print("\nRetorno Carteira = "+df.format(maiorValor));
+		// }
+
 	}
 
 	// método somatório para definir o retorno da carteira - Soma(RetornoAção_X * PorcentagemAção_X)
@@ -57,11 +99,11 @@ public class application {
 	}
 
 	// método para sortear as porcentagens para cada ação
-	public static int sorteia(List<Double> sorteia) {
+	public static Double sorteia(List<Double> sorteia) {
 
 		Collections.shuffle(sorteia);
 
-		return ((Double) sorteia.remove(0)).intValue();
+		return ((Double) sorteia.remove(0)).doubleValue();
 
 	}
 
@@ -78,10 +120,20 @@ public class application {
 		return somar;
 	}
 
+	public static void aumentaPorcentagem(Acao carteira[][], int aumenta) {
+
+		for (int i = 0; i < carteira.length; i++) {
+			for (int j = 0; j < carteira.length; j++) {
+				if (carteira[i][j] == carteira[i][aumenta]) {
+					carteira[i][j].setPorcentagemAcao(carteira[i][j].acrescentaPorcentagem(5.0));
+				}
+			}
+		}
+
+	}
+
 	public static void mostraCarteiraInicial(Acao a[]) {
 		DecimalFormat df = new DecimalFormat("###,##0.00000");
-		System.out.println("Carteira inicial: \n");
-
 		System.out.println(
 				"-----------------------------------------------------------------------------------------------------------------------");
 		System.out.print("|     Ação         |    ");
@@ -104,7 +156,20 @@ public class application {
 		}
 		System.out.print("     " + somaPorcentagem(a) + "%         |");
 		System.out.print(
-				"\n-----------------------------------------------------------------------------------------------------------------------");
+				"\n-----------------------------------------------------------------------------------------------------------------------\n");
 
 	}
+	
+	public static void mostraVizinho(Acao a[]) {
+		
+		DecimalFormat df = new DecimalFormat("###,##0.00000");	
+		for (int i = 0; i < a.length; i++) {
+			System.out.print(" |   "+a[i].getPorcentagemAcao() + "%" + "   ");
+		}
+		System.out.print("  |     " + df.format(retornoCarteira(a)) + "       |");
+		System.out.print(
+				"\n-----------------------------------------------------------------------------------------\n");
+
+	}
+	
 }

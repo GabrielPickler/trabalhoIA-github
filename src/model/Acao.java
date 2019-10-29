@@ -50,8 +50,12 @@ public class Acao {
 
 	}
 	
-	public double acrescentaPorcentagem(int add) {
+	public double acrescentaPorcentagem(double add) {
 		return porcentagemAcao + add;
+	}
+	
+	public double diminuiPorcentagem(double add) {
+		return porcentagemAcao - add;
 	}
 
 }
