@@ -144,18 +144,7 @@ public class application {
 		return somar;
 	}
 
-	public static void aumentaPorcentagem(Acao carteira[][], int aumenta) {
-
-		for (int i = 0; i < carteira.length; i++) {
-			for (int j = 0; j < carteira.length; j++) {
-				if (carteira[i][j] == carteira[i][aumenta]) {
-					carteira[i][j].setPorcentagemAcao(carteira[i][j].acrescentaPorcentagem(5.0));
-				}
-			}
-		}
-
-	}
-
+	//metódo apenas para mostrar a carteira inicial
 	public static void mostraCarteiraInicial(Acao a[]) {
 		DecimalFormat df = new DecimalFormat("###,##0.00000");
 		System.out.println(
@@ -183,7 +172,8 @@ public class application {
 				"\n-----------------------------------------------------------------------------------------------------------------------\n");
 
 	}
-
+	
+	//método para mostrar o vizinho
 	public static void mostraVizinho(Acao a[]) {
 
 		DecimalFormat df = new DecimalFormat("###,##0.00000");
