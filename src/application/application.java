@@ -30,60 +30,84 @@ public class application {
 		// mostrar carteira inicial
 		Acao carteiraInicial[] = { A1, B1, C1, D1, E1 };
 		Acao Vizinho[] = { A1, B1, C1, D1, E1 };
+		double porcentagemInicial[] = { A1.getPorcentagemAcao(), B1.getPorcentagemAcao(), C1.getPorcentagemAcao(),
+				D1.getPorcentagemAcao(), E1.getPorcentagemAcao() };
 		double maior[] = new double[5];
 		System.out.println("Carteira Inicial\n");
 		mostraCarteiraInicial(carteiraInicial);
 
 		// Criação da matriz da carteira vizinha
 
-		double maiorValor = retornoCarteira(carteiraInicial);
-		double retornoVizinho = 0.0;
+		double vizinhoAnterior = 0.0;
+		double vizinhoAtual = retornoCarteira(carteiraInicial);
 		int add = 0;
 		int aux = add + 1;
 		double porcen = 5.0;
-		
-		// while (retornoVizinho <= maiorValor) {
-		System.out.println("\n\nCarteira Vizinha " + (add+1) + "\n");
-		System.out.println(
-				"-----------------------------------------------------------------------------------------");
 
-		for (int i = 0; i < Vizinho.length; i++) {
-			System.out.print(" |     "+Vizinho[i].getAcao()+"     ");		
-		}
-		System.out.print("  |  Retorno Carteira: |");
-		System.out.print(
-				"\n-----------------------------------------------------------------------------------------\n");
+		// Aplicando a lógica do vizinho
+		while (vizinhoAtual >= vizinhoAnterior) {
+			//Fazendo a tabela
+			System.out.println("\n\nCarteira Vizinha " + (add + 1) + "\n");
+			System.out.println(
+					"-----------------------------------------------------------------------------------------");
 
-		Vizinho[add].setPorcentagemAcao(Vizinho[add].acrescentaPorcentagem(porcen));
-		for (int j = 0; j < Vizinho.length-1; j ++) {			
-			Vizinho[aux].setPorcentagemAcao(Vizinho[aux].diminuiPorcentagem(porcen));
-			retornoCarteira(Vizinho);
-			if (retornoCarteira(Vizinho) > maiorValor) {
-				maiorValor = retornoCarteira(Vizinho);
-				for (int i = 0; i < maior.length; i++) {
-					maior[i] = Vizinho[i].getPorcentagemAcao();
+			for (int i = 0; i < carteiraInicial.length; i++) {
+				System.out.print(" |     " + carteiraInicial[i].getAcao() + "     ");
+			}
+			System.out.print("  |  Retorno Carteira: |");
+			System.out.print(
+					"\n-----------------------------------------------------------------------------------------\n");
+			//Aumenta em 5 porcento a ação escolhida
+			Vizinho[add].setPorcentagemAcao(Vizinho[add].acrescentaPorcentagem(porcen));
+			//for para percorrer as ações
+			for (int j = 0; j < Vizinho.length - 1; j++) {
+				//if para caso o for chegue na ação que foi acrescentada 5 porcento, ele pula para a próxima ação
+				if (aux == add) {
+					aux++;
+				}
+				//diminui as próximas ações em 5 por cento
+				Vizinho[aux].setPorcentagemAcao(Vizinho[aux].diminuiPorcentagem(porcen));
+				//if para verificar se o retorno da carteira atual é maior do que a carteira anterior
+				if (retornoCarteira(Vizinho) > vizinhoAnterior) {
+					vizinhoAtual = retornoCarteira(Vizinho);
+					//vetor para armazenar a carteira com o maior valor
+					for (int i = 0; i < maior.length; i++) {
+						maior[i] = Vizinho[i].getPorcentagemAcao();
+					}
+				}
+				//método para mostrar os vizinhos
+				mostraVizinho(Vizinho);
+				//acrescentando novamente a porcentagem que foi retirada
+				Vizinho[aux].setPorcentagemAcao(Vizinho[aux].acrescentaPorcentagem(porcen));
+				//aumenta o aux em 1, sendo assim a próxima ação irá diminuir em 5 porcento
+				aux++;
+				//if para verificar caso o aux ultrapasse o tamanho do vetor, ele retornará para o valor 0
+				if (aux >= Vizinho.length) {
+					aux = 0;
 				}
 			}
-			mostraVizinho(Vizinho);
-			Vizinho[aux].setPorcentagemAcao(Vizinho[aux].acrescentaPorcentagem(porcen));
-			aux++;
-			if (aux > Vizinho.length) {
-				aux = 0;
-			}
-			Vizinho = carteiraInicial;
-			
-		}
+			//add é acrescido (variável add é responsável por determinar qual ação será escolhida para ser acrescida 5%
 			add++;
+
+			//mostra carteira com o maior valor
 			System.out.println("");
-			for(int i =0; i<maior.length;i++) {
-			System.out.print(maior[i] + "%, ");
+			System.out.println("");
+			for (int i = 0; i < maior.length; i++) {
+				System.out.print(maior[i] + "%, ");
 			}
-			System.out.print("\nRetorno Carteira = "+df.format(maiorValor));
-		// }
+			//mostra o maior retorno
+			System.out.print("\nRetorno Carteira = " + df.format(vizinhoAtual));
+			
+			//reseta as porcentagens que foram modificas durante o processo, para a porcentagem inicial, para que assim o próximo vizinho inicie
+			for (int i = 0; i < maior.length; i++) {
+				Vizinho[i].setPorcentagemAcao(porcentagemInicial[i]);
+			}
+		}
 
 	}
 
-	// método somatório para definir o retorno da carteira - Soma(RetornoAção_X * PorcentagemAção_X)
+	// método somatório para definir o retorno da carteira - Soma(RetornoAção_X *
+	// PorcentagemAção_X)
 	public static double retornoCarteira(Acao somar[]) {
 
 		double soma = 0.0;
@@ -159,17 +183,17 @@ public class application {
 				"\n-----------------------------------------------------------------------------------------------------------------------\n");
 
 	}
-	
+
 	public static void mostraVizinho(Acao a[]) {
-		
-		DecimalFormat df = new DecimalFormat("###,##0.00000");	
+
+		DecimalFormat df = new DecimalFormat("###,##0.00000");
 		for (int i = 0; i < a.length; i++) {
-			System.out.print(" |   "+a[i].getPorcentagemAcao() + "%" + "   ");
+			System.out.print(" |   " + a[i].getPorcentagemAcao() + "%" + "   ");
 		}
 		System.out.print("  |     " + df.format(retornoCarteira(a)) + "       |");
-		System.out.print(
-				"\n-----------------------------------------------------------------------------------------\n");
+		System.out
+				.print("\n-----------------------------------------------------------------------------------------\n");
 
 	}
-	
+
 }
