@@ -45,7 +45,7 @@ public class application {
 		double porcen = 5.0;
 
 		// Aplicando a lógica do vizinho
-		while (vizinhoAtual >= vizinhoAnterior) {
+		while (vizinhoAtual > vizinhoAnterior) {
 			//Fazendo a tabela
 			System.out.println("\n\nCarteira Vizinha " + (add + 1) + "\n");
 			System.out.println(
@@ -59,6 +59,7 @@ public class application {
 					"\n-----------------------------------------------------------------------------------------\n");
 			//Aumenta em 5 porcento a ação escolhida
 			Vizinho[add].setPorcentagemAcao(Vizinho[add].acrescentaPorcentagem(porcen));
+			vizinhoAnterior = vizinhoAtual;
 			//for para percorrer as ações
 			for (int j = 0; j < Vizinho.length - 1; j++) {
 				//if para caso o for chegue na ação que foi acrescentada 5 porcento, ele pula para a próxima ação
@@ -89,20 +90,21 @@ public class application {
 			//add é acrescido (variável add é responsável por determinar qual ação será escolhida para ser acrescida 5%
 			add++;
 
-			//mostra carteira com o maior valor
-			System.out.println("");
-			System.out.println("");
-			for (int i = 0; i < maior.length; i++) {
-				System.out.print(maior[i] + "%, ");
-			}
-			//mostra o maior retorno
-			System.out.print("\nRetorno Carteira = " + df.format(vizinhoAtual));
-			
 			//reseta as porcentagens que foram modificas durante o processo, para a porcentagem inicial, para que assim o próximo vizinho inicie
 			for (int i = 0; i < maior.length; i++) {
 				Vizinho[i].setPorcentagemAcao(porcentagemInicial[i]);
 			}
 		}
+		
+		//mostra carteira com o maior valor
+		System.out.println("");
+		System.out.println("");
+		for (int i = 0; i < maior.length; i++) {
+			System.out.print(maior[i] + "%, ");
+		}
+		//mostra o maior retorno
+		System.out.print("\nRetorno Carteira = " + df.format(vizinhoAtual));
+		
 
 	}
 
