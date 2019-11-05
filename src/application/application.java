@@ -50,9 +50,9 @@ public class application {
 		System.out.println("\n\nCarteira Vizinha " + "\n");
 		System.out.println("-----------------------------------------------------------------------------------------");
 		// Aplicando a lógica do vizinho
-		while (vizinhoAtual > vizinhoAnterior) {
-			if(add == 0) {
-			vizinhoAnterior = vizinhoAtual;
+		while ((vizinhoAtual > vizinhoAnterior) && (verificarPorcentagem == false)) {
+			if (add == 0) {
+				vizinhoAnterior = vizinhoAtual;
 			}
 			// Fazendo a tabela
 			for (int i = 0; i < carteiraInicial.length; i++) {
@@ -72,17 +72,17 @@ public class application {
 				}
 				// diminui as próximas ações em 5 por cento
 				Vizinho[aux].setPorcentagemAcao(Vizinho[aux].diminuiPorcentagem(porcen));
+				verificarPorcentagem = verificaPorcentagem(Vizinho);
 				// if para verificar se o retorno da carteira atual é maior do que a carteira
 				// anterior
-				if (verificaPorcentagem(Vizinho) == false) {
-					if (retornoCarteira(Vizinho) > carteiraAtual) {
-						carteiraAtual = retornoCarteira(Vizinho);
-						vizinhoAtual = carteiraAtual;
-						// vetor para armazenar a carteira com o maior valor
-						for (int i = 0; i < maior.length; i++) {
-							maior[i] = Vizinho[i].getPorcentagemAcao();
-						}
+				if (retornoCarteira(Vizinho) > carteiraAtual) {
+					carteiraAtual = retornoCarteira(Vizinho);
+					vizinhoAtual = carteiraAtual;
+					// vetor para armazenar a carteira com o maior valor
+					for (int i = 0; i < maior.length; i++) {
+						maior[i] = Vizinho[i].getPorcentagemAcao();
 					}
+
 				}
 				// método para mostrar os vizinhos
 				mostraVizinho(Vizinho);
@@ -98,6 +98,7 @@ public class application {
 			}
 			// add é acrescido (variável add é responsável por determinar qual ação será
 			// escolhida para ser acrescida 5%
+			
 			add++;
 
 			if (add == Vizinho.length) {
@@ -120,7 +121,7 @@ public class application {
 				}
 				add = 0;
 				aux = 1;
-				
+
 			}
 			// reseta as porcentagens que foram modificas durante o processo, para a
 			// porcentagem inicial, para que assim o próximo vizinho inicie
