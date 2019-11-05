@@ -11,11 +11,11 @@ public class application {
 
 	public static void main(String[] args) {
 
-		// declara Lista para sortear as porcentagens de cada ação
-		DecimalFormat df = new DecimalFormat("###,##0.00000");
 		for (int x = 0; x < 5; x++) {
+			DecimalFormat df = new DecimalFormat("###,##0.00000");
 			System.out.println("SIMULAÇÃO " + (x +1)+"\n\n");
 			List<Double> porcentagem = new ArrayList<>();
+			// declara Lista para sortear as porcentagens de cada ação
 			porcentagem.add(30.0);
 			porcentagem.add(25.0);
 			porcentagem.add(20.0);
@@ -29,7 +29,6 @@ public class application {
 			Acao D1 = new Acao("D", 0.05812, sorteia(porcentagem));
 			Acao E1 = new Acao("E", 0.01731, sorteia(porcentagem));
 
-			// mostrar carteira inicial
 			int contaCarteira = 0;
 			Acao carteiraInicial[] = { A1, B1, C1, D1, E1 };
 			double porcentagemInicial[] = { A1.getPorcentagemAcao(), B1.getPorcentagemAcao(), C1.getPorcentagemAcao(),
@@ -37,6 +36,7 @@ public class application {
 			Acao Vizinho[] = { A1, B1, C1, D1, E1 };
 			double maior[] = new double[5];
 			System.out.println("Carteira Inicial\n");
+			// mostrar carteira inicial
 			mostraCarteiraInicial(carteiraInicial);
 
 			// Criação da matriz da carteira vizinha
