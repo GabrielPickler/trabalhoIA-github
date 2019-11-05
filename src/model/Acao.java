@@ -45,7 +45,7 @@ public class Acao {
 	}
 
 	public double retornoAnual() {
-
+		
 		return retornoAcao * (porcentagemAcao / 100);
 
 	}

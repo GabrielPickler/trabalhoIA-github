@@ -50,10 +50,9 @@ public class application {
 		System.out.println("\n\nCarteira Vizinha " + "\n");
 		System.out.println("-----------------------------------------------------------------------------------------");
 		// Aplicando a lógica do vizinho
-		while ((vizinhoAtual > vizinhoAnterior) && (verificarPorcentagem == false)) {
+		while (vizinhoAtual > vizinhoAnterior) {
 			if(add == 0) {
 			vizinhoAnterior = vizinhoAtual;
-			vizinhoAtual = 0.0;
 			}
 			// Fazendo a tabela
 			for (int i = 0; i < carteiraInicial.length; i++) {
