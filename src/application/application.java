@@ -13,7 +13,9 @@ public class application {
 
 		DecimalFormat df = new DecimalFormat("###,##0.00000");
 		for (int x = 0; x < 5; x++) {
-			System.out.println("SIMULAÇÃO " + (x + 1) + "\n\n");
+			System.out.println("                                                                      SIMULAÇÃO " + (x + 1));
+			System.out.print("_____________________________________________________________________________________________________________________________________________________________________________\n\n");
+
 			// declara Lista para sortear as porcentagens de cada ação
 			List<Double> porcentagem = new ArrayList<>();
 			porcentagem.add(30.0);
@@ -36,7 +38,7 @@ public class application {
 					D1.getPorcentagemAcao(), E1.getPorcentagemAcao() };
 			Acao Vizinho[] = { A1, B1, C1, D1, E1 };
 			double maior[] = new double[5];
-			System.out.println("Carteira Inicial\n");
+			System.out.println("\n\nCarteira Inicial\n");
 			mostraCarteiraInicial(carteiraInicial);
 
 			// Criação da matriz da carteira vizinha
@@ -53,7 +55,8 @@ public class application {
 					"-----------------------------------------------------------------------------------------");
 			// Aplicando a lógica do vizinho
 			while (vizinhoAtual > vizinhoAnterior) {
-				//apontando o vizinho anterior para o vizinho atual, caso o atual seja maior que o anterior
+				// apontando o vizinho anterior para o vizinho atual, caso o atual seja maior
+				// que o anterior
 				if (add == 0) {
 					vizinhoAnterior = vizinhoAtual;
 				}
@@ -75,14 +78,14 @@ public class application {
 					}
 					// diminui as próximas ações em 5 por cento
 					Vizinho[aux].setPorcentagemAcao(Vizinho[aux].diminuiPorcentagem(porcen));
-					//if para verificar se a carteira possui % > 100 ou % < 0
+					// if para verificar se a carteira possui % > 100 ou % < 0
 					if (verificaPorcentagem(Vizinho) == false) {
 						// if para verificar se o retorno da carteira atual é maior do que a carteira
 						// anterior
 						if (retornoCarteira(Vizinho) > carteiraAtual) {
-							//armazenando maior valor
+							// armazenando maior valor
 							carteiraAtual = retornoCarteira(Vizinho);
-							//apontando o vizinho atual
+							// apontando o vizinho atual
 							vizinhoAtual = carteiraAtual;
 							// vetor para armazenar a carteira com o maior valor
 							for (int i = 0; i < maior.length; i++) {
@@ -105,8 +108,8 @@ public class application {
 				// add é acrescido (variável add é responsável por determinar qual ação será
 				// escolhida para ser acrescida 5%)
 				add++;
-				
-				//if para verificar se o vizinho chegou ao fim
+
+				// if para verificar se o vizinho chegou ao fim
 				if (add == Vizinho.length) {
 					contaCarteira++;
 					System.out.println("");
@@ -120,16 +123,17 @@ public class application {
 					System.out.println("Nova Carteira " + contaCarteira + "\n");
 					System.out.print(
 							"-----------------------------------------------------------------------------------------\n");
-					
+
 					for (int y = 0; y < maior.length; y++) {
-						//setando a maior carteira encontrada para que o próximo Vizinho inicie com esses valores
+						// setando a maior carteira encontrada para que o próximo Vizinho inicie com
+						// esses valores
 						Vizinho[y].setPorcentagemAcao(maior[y]);
-						//armazenando nova porcentagem inicial
+						// armazenando nova porcentagem inicial
 						porcentagemInicial[y] = maior[y];
 					}
-					//add retorna para 0, como inicialmente
+					// add retorna para 0, como inicialmente
 					add = 0;
-					//aux retorna para 1, como inicialmente
+					// aux retorna para 1, como inicialmente
 					aux = 1;
 
 				}
@@ -139,12 +143,17 @@ public class application {
 					Vizinho[i].setPorcentagemAcao(porcentagemInicial[i]);
 				}
 			}
+			System.out.print("\nCARTEIRA FINAL: ");
+			for (int i = 0; i < maior.length; i++) {
+				System.out.print(maior[i]+ "%, ");
+			}
+			System.out.println("Retorno Carteira: " + carteiraAtual);
 			System.out.println(
 					"_____________________________________________________________________________________________________________________________________________________________________________");
 		}
 	}
 
-	//método para verificar se porcentagem das ações passa de 100 ou é menor a 0
+	// método para verificar se porcentagem das ações passa de 100 ou é menor a 0
 	public static boolean verificaPorcentagem(Acao carteira[]) {
 
 		for (int i = 0; i < carteira.length; i++) {
